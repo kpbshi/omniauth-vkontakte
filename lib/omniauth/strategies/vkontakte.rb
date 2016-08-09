@@ -40,10 +40,8 @@ module OmniAuth
           :first_name => raw_info['first_name'],
           :last_name  => raw_info['last_name'],
           :image      => image_url,
-          :location   => location,
-          :urls       => {
-            'Vkontakte' => "http://vk.com/#{raw_info['screen_name']}"
-          },
+          #:location   => location,
+          #:urls       => { 'Vkontakte' => "http://vk.com/#{raw_info['screen_name']}" },
         }
       end
 
@@ -66,8 +64,9 @@ module OmniAuth
 
           result = access_token.get('/method/users.get', :params => params).parsed["response"]
 
-          raise NoRawData, result unless (result.is_a?(Array) and result.first)
-          result.first
+          result && result.first ? result.first : {}
+          #raise NoRawData, result unless (result.is_a?(Array) and result.first)
+          #result.first
         end
       end
 
